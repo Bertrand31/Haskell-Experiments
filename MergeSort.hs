@@ -8,10 +8,12 @@ merge predicate xs ys
   | otherwise = (head ys) : merge predicate (tail ys) xs
 
 mergeSort :: Ord a => (a -> a -> Bool) -> [a] -> [a]
-mergeSort predicate [] = []
-mergeSort predicate all@(x:[]) = all
 mergeSort predicate xs =
-  let pivot = (length xs) `div` 2
-      leftSide = mergeSort predicate (take pivot xs)
-      rightSide = mergeSort predicate (drop pivot xs)
-  in merge predicate leftSide rightSide
+  case xs of
+    [] -> []
+    all@(x:[]) -> all
+    xs ->
+      let pivot = (length xs) `div` 2
+          leftSide = mergeSort predicate (take pivot xs)
+          rightSide = mergeSort predicate (drop pivot xs)
+      in merge predicate leftSide rightSide
