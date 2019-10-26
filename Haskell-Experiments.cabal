@@ -4,17 +4,17 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 55dd620d3f4b3e99727480ecdf8a9587daf67be065c504e0a558986bfbb45e76
+-- hash: d7d718b384aacab3e8e664a8b678774dc5f8615e0f3c2e551cc607f5f65e2eda
 
 name:           Haskell-Experiments
 version:        0.1.0.0
 description:    Please see the README on GitHub at <https://github.com/githubuser/Haskell-Experiments#readme>
-homepage:       https://github.com/githubuser/Haskell-Experiments#readme
-bug-reports:    https://github.com/githubuser/Haskell-Experiments/issues
-author:         Author name here
+homepage:       https://github.com/Bertrand31/Haskell-Experiments#readme
+bug-reports:    https://github.com/Bertrand31/Haskell-Experiments/issues
+author:         Bertrand Junqua
 maintainer:     example@example.com
-copyright:      2019 Author name here
-license:        BSD3
+copyright:      2019 Bertrand Junqua
+license:        GPLv3
 license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
@@ -23,7 +23,7 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/Haskell-Experiments
+  location: https://github.com/Bertrand31/Haskell-Experiments
 
 library
   exposed-modules:
@@ -34,6 +34,11 @@ library
       src
   build-depends:
       base >=4.7 && <5
+    , bitset >=1.1
+    , bytestring
+    , hashable
+    , murmur3
+    , random >=1.1
   default-language: Haskell2010
 
 executable Haskell-Experiments-exe
@@ -49,6 +54,11 @@ executable Haskell-Experiments-exe
   build-depends:
       Haskell-Experiments
     , base >=4.7 && <5
+    , bitset >=1.1
+    , bytestring
+    , hashable
+    , murmur3
+    , random >=1.1
   default-language: Haskell2010
 
 test-suite Haskell-Experiments-test
@@ -62,4 +72,9 @@ test-suite Haskell-Experiments-test
   build-depends:
       Haskell-Experiments
     , base >=4.7 && <5
+    , bitset >=1.1
+    , bytestring
+    , hashable
+    , murmur3
+    , random >=1.1
   default-language: Haskell2010

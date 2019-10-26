@@ -1,10 +1,10 @@
 name:                Haskell-Experiments
 version:             0.1.0.0
-github:              "githubuser/Haskell-Experiments"
-license:             BSD3
-author:              "Author name here"
+github:              "Bertrand31/Haskell-Experiments"
+license:             GPLv3
+author:              "Bertrand Junqua"
 maintainer:          "example@example.com"
-copyright:           "2019 Author name here"
+copyright:           "2019 Bertrand Junqua"
 
 extra-source-files:
 - README.md
@@ -21,6 +21,11 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 dependencies:
 - base >= 4.7 && < 5
+- random >= 1.1
+- bitset >= 1.1
+- murmur3
+- bytestring
+- hashable
 
 library:
   source-dirs: src
