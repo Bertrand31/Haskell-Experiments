@@ -31,19 +31,20 @@ empty n p randGen =
 null :: BloomFilter -> Bool
 null = BitSet.null . bitset
 
-getHashes :: Show a => Int -> a -> [Int]
-getHashes k elem =
+getHashes :: Show a => BloomFilter -> a -> [Int]
+getHashes bloomFilter elem =
   let str = show elem
-  in map (\x -> hashWithSalt k str) [1..k]
+      seed = hashSeed bloomFilter
+  in map (\x -> hashWithSalt (seed + x) str) [1..(k bloomFilter)]
 
 insert :: Show a => a -> BloomFilter -> BloomFilter
 insert elem bloomFilter =
-  let hashes = getHashes (k bloomFilter) elem
+  let hashes = getHashes bloomFilter elem
       newBitSet = foldl (\bf x -> BitSet.insert x bf) (bitset bloomFilter) hashes
   in bloomFilter { bitset = newBitSet }
 
 member :: Show a => a -> BloomFilter -> Bool
 member elem bloomFilter =
-  let hashes = getHashes (k bloomFilter) elem
+  let hashes = getHashes bloomFilter elem
       bs = bitset bloomFilter
   in all (\x -> BitSet.member x bs) hashes
