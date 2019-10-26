@@ -14,12 +14,10 @@ data BloomFilter = BloomFilter {
 } deriving (Eq, Show)
 
 getMaxSize :: Int -> Float -> Int
-getMaxSize n p =
-  abs $ ceiling (fromIntegral n * (log p) / (log (1 / ((log 2) ^ 2))))
+getMaxSize n p = abs $ ceiling $ fromIntegral n * (log p) / (log (1 / (log 2 ^ 2)))
 
 getNumberOfHashFunctions :: Int -> Int -> Int
-getNumberOfHashFunctions n m =
-  round (fromIntegral (m `div` n) * log 2)
+getNumberOfHashFunctions n m = round $ fromIntegral (m `div` n) * log 2
 
 empty :: Int -> Float -> StdGen -> BloomFilter
 empty n p randGen =
