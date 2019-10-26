@@ -1,4 +1,4 @@
-module BloomFilter (BloomFilter, empty, insert, member, BloomFilter.null) where
+module BloomFilter (empty, insert, member, BloomFilter.null) where
 
 import System.Random (random, StdGen)
 import qualified Data.BitSet as BitSet (BitSet, empty, insert, member, null, size)
