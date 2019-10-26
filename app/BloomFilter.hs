@@ -1,17 +1,17 @@
-module BloomFilter (BloomFilter, create, empty, insert, mayContain) where
+module BloomFilter (BloomFilter, empty, insert, member, BloomFilter.null) where
 
 import System.Random (random, StdGen)
-import qualified Data.BitSet as BitSet (BitSet, empty, insert, member, null)
-import Data.Hashable (hash)
+import qualified Data.BitSet as BitSet (BitSet, empty, insert, member, null, size)
+import Data.Hashable (hashWithSalt)
+
+-- n: expected number of items in the Bloom Filter
+-- p: acceptable probability of a false positive
+-- m: max number of bits the Bloom Filter will use
+-- k: number of hashing functions
 
 data BloomFilter = BloomFilter {
-                                 nbOfItems :: Int,
-                                 falsePositiveProbability :: Float,
-                                 bitset :: BitSet.BitSet Int,
-                                 maxSize :: Int,
-                                 numberOfHashFunctions :: Int,
-                                 hashSeed :: Int
-                               } deriving (Eq, Show)
+  n :: Int, p :: Float, bitset :: BitSet.BitSet Int, m :: Int, k :: Int, hashSeed :: Int
+} deriving (Eq, Show)
 
 getMaxSize :: Int -> Float -> Int
 getMaxSize n p =
@@ -21,27 +21,29 @@ getNumberOfHashFunctions :: Int -> Int -> Int
 getNumberOfHashFunctions n m =
   round (fromIntegral (m `div` n) * log 2)
 
-create :: Int -> Float -> StdGen -> BloomFilter
-create n p randGen =
+empty :: Int -> Float -> StdGen -> BloomFilter
+empty n p randGen =
   let m = getMaxSize n p
       k = getNumberOfHashFunctions n m
       hashSeed = fst $ random randGen
   in BloomFilter n p BitSet.empty m k hashSeed
 
-empty :: BloomFilter -> Bool
-empty = BitSet.null . bitset
+null :: BloomFilter -> Bool
+null = BitSet.null . bitset
+
+getHashes :: Show a => Int -> a -> [Int]
+getHashes k elem =
+  let str = show elem
+  in map (\x -> hashWithSalt k str) [1..k]
 
 insert :: Show a => a -> BloomFilter -> BloomFilter
 insert elem bloomFilter =
-  let str = show elem
-      hashes = map (\x -> hash x `mod` (maxSize bloomFilter)) str
-      newBitSet = Prelude.foldl (\bf x -> BitSet.insert x bf) (bitset bloomFilter) hashes
+  let hashes = getHashes (k bloomFilter) elem
+      newBitSet = foldl (\bf x -> BitSet.insert x bf) (bitset bloomFilter) hashes
   in bloomFilter { bitset = newBitSet }
 
-mayContain :: Show a => a -> BloomFilter -> Bool
-mayContain elem bloomFilter =
-  let str = show elem
-      hashes = map (\x -> hash x `mod` (maxSize bloomFilter)) str
+member :: Show a => a -> BloomFilter -> Bool
+member elem bloomFilter =
+  let hashes = getHashes (k bloomFilter) elem
       bs = bitset bloomFilter
   in all (\x -> BitSet.member x bs) hashes
-

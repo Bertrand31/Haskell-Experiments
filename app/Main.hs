@@ -15,9 +15,9 @@ main = do
   assert (gcd' 48 64 == 16) writeOk "GCD"
   assert (mergeSort (<) [7,1,6,4,2,9] == [1,2,4,6,7,9]) writeOk "MergeSort"
   gen <- getStdGen
-  let bloomFilter = BloomFilter.create 100000 0.0001 gen
-  assert (BloomFilter.empty bloomFilter == True) writeOk "BloomFilter empty"
+  let bloomFilter = BloomFilter.empty 100000 0.0001 gen
+  assert (BloomFilter.null bloomFilter == True) writeOk "BloomFilter null"
   let bloomFilterWithFoo = BloomFilter.insert "foo" bloomFilter
-  assert (BloomFilter.empty bloomFilterWithFoo == False) writeOk "BloomFilter empty"
-  assert (BloomFilter.mayContain "foo" bloomFilterWithFoo == True) writeOk "BloomFilter mayContain"
-  assert (BloomFilter.mayContain "bar" bloomFilterWithFoo == False) writeOk "BloomFilter mayContain"
+  assert (BloomFilter.null bloomFilterWithFoo == False) writeOk "BloomFilter null"
+  assert (BloomFilter.member "foo" bloomFilterWithFoo == True) writeOk "BloomFilter member"
+  assert (BloomFilter.member "bar" bloomFilterWithFoo == False) writeOk "BloomFilter member"
