@@ -1,4 +1,4 @@
-module MergeSort where
+module MergeSort (mergeSort) where
 
 merge :: Ord a => (a -> a -> Bool) -> [a] -> [a] -> [a]
 merge predicate xs [] = xs
