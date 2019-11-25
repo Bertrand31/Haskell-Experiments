@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2b560ce99d88774c4565f6ee1c6548a086b7baddd9af8d746174d5fe20ab400c
+-- hash: 267389792a4d65bc4625cd690451463de4b2825f888fc7098a490d704fdfba6c
 
 name:           Haskell-Experiments
 version:        0.1.0.0
@@ -19,24 +19,11 @@ license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
+    ChangeLog.md
 
 source-repository head
   type: git
   location: https://github.com/Bertrand31/Haskell-Experiments
-
-library
-  exposed-modules:
-      Lib
-  other-modules:
-      Paths_Haskell_Experiments
-  hs-source-dirs:
-      src
-  build-depends:
-      base >=4.7 && <5
-    , bitset >=1.1
-    , hashable
-    , random >=1.1
-  default-language: Haskell2010
 
 executable Haskell-Experiments-exe
   main-is: Main.hs
@@ -44,13 +31,13 @@ executable Haskell-Experiments-exe
       BloomFilter
       GCD
       MergeSort
+      MineSweeper
       Paths_Haskell_Experiments
   hs-source-dirs:
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      Haskell-Experiments
-    , base >=4.7 && <5
+      base >=4.7 && <5
     , bitset >=1.1
     , hashable
     , random >=1.1
@@ -65,8 +52,7 @@ test-suite Haskell-Experiments-test
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      Haskell-Experiments
-    , base >=4.7 && <5
+      base >=4.7 && <5
     , bitset >=1.1
     , hashable
     , random >=1.1
