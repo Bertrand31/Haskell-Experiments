@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 267389792a4d65bc4625cd690451463de4b2825f888fc7098a490d704fdfba6c
+-- hash: c2fdad41f7cb91778e45c7b3887900a9265942545b3f72eb738fe8ee68eeea90
 
 name:           Haskell-Experiments
 version:        0.1.0.0
@@ -13,7 +13,7 @@ homepage:       https://github.com/Bertrand31/Haskell-Experiments#readme
 bug-reports:    https://github.com/Bertrand31/Haskell-Experiments/issues
 author:         Bertrand Junqua
 maintainer:     example@example.com
-copyright:      2019 Bertrand Junqua
+copyright:      2020 Bertrand Junqua
 license:        GPLv3
 license-file:   LICENSE
 build-type:     Simple
@@ -28,6 +28,7 @@ source-repository head
 executable Haskell-Experiments-exe
   main-is: Main.hs
   other-modules:
+      Bitset
       BloomFilter
       GCD
       MergeSort
@@ -39,6 +40,7 @@ executable Haskell-Experiments-exe
   build-depends:
       base >=4.7 && <5
     , bitset >=1.1
+    , containers >=0.6.0.1
     , hashable
     , random >=1.1
   default-language: Haskell2010
@@ -54,6 +56,7 @@ test-suite Haskell-Experiments-test
   build-depends:
       base >=4.7 && <5
     , bitset >=1.1
+    , containers >=0.6.0.1
     , hashable
     , random >=1.1
   default-language: Haskell2010

@@ -4,7 +4,7 @@ github:              "Bertrand31/Haskell-Experiments"
 license:             GPLv3
 author:              "Bertrand Junqua"
 maintainer:          "example@example.com"
-copyright:           "2019 Bertrand Junqua"
+copyright:           "2020 Bertrand Junqua"
 
 extra-source-files:
 - README.md
@@ -23,6 +23,7 @@ dependencies:
 - base >= 4.7 && < 5
 - random >= 1.1
 - bitset >= 1.1
+- containers >= 0.6.0.1
 - hashable
 
 executables:

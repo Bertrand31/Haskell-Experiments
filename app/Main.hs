@@ -6,6 +6,7 @@ import MineSweeper
 import MergeSort (mergeSort)
 import GCD (gcd')
 import qualified BloomFilter
+import qualified Bitset
 
 writeOk :: String -> IO ()
 writeOk fnName = putStrLn $ fnName ++ " [OK]"
@@ -35,3 +36,8 @@ main = do
   assert (BloomFilter.member "foo" bloomFilterWithFoo == True) writeOk "BloomFilter member"
   assert (BloomFilter.member "bar" bloomFilterWithFoo == False) writeOk "BloomFilter member"
   pp $ minesweeper sampleInput
+  let bitset = Bitset.empty
+  let bitset1 = Bitset.insert bitset 5
+  let bitset2 = Bitset.insert bitset1 50
+  putStrLn $ show $ Bitset.member bitset2 5
+  putStrLn $ show $ Bitset.member bitset2 50

@@ -25,6 +25,13 @@ packages:
       sha256: 901c4f10bcf6bda842b849950a2767c918f4ed59fa8885f7c945dd6c7e763332
   original:
     hackage: hashable-1.2.7.0
+- completed:
+    hackage: ghc-prim-0.5.3@sha256:2284e90b0d56dfd389588b5c927e7f22c17f1d6c2291464cb0cc3f9651b0ba23,2319
+    pantry-tree:
+      size: 1243
+      sha256: 0cfcb729cad4238cabfa57c5b68ae66475415237cd08c25b9fc804dd10bb8bc0
+  original:
+    hackage: ghc-prim-0.5.3
 snapshots:
 - completed:
     size: 524786
