@@ -33,7 +33,7 @@ getHashes :: Show a => BloomFilter -> a -> [Int]
 getHashes bloomFilter elem =
   let str = show elem
       seed = hashSeed bloomFilter
-  in map ((flip hashWithSalt str) . (seed +)) [1..(k bloomFilter)]
+  in map ((`hashWithSalt` str) . (seed +)) [1..(k bloomFilter)]
 
 insert :: Show a => a -> BloomFilter -> BloomFilter
 insert elem bloomFilter =
@@ -47,4 +47,4 @@ member :: Show a => a -> BloomFilter -> Bool
 member elem bloomFilter =
   let hashes = getHashes bloomFilter elem
       bs = bitset bloomFilter
-  in all (flip BitSet.member bs) hashes
+  in all (`BitSet.member` bs) hashes
