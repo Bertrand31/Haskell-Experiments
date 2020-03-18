@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c2fdad41f7cb91778e45c7b3887900a9265942545b3f72eb738fe8ee68eeea90
+-- hash: 652379ccc553010343fd863981d559f662ca4a2b3c8ebe92f0dffa5837933856
 
 name:           Haskell-Experiments
 version:        0.1.0.0
@@ -32,7 +32,6 @@ executable Haskell-Experiments-exe
       BloomFilter
       GCD
       MergeSort
-      MineSweeper
       Paths_Haskell_Experiments
   hs-source-dirs:
       app
