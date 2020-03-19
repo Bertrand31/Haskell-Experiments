@@ -33,7 +33,7 @@ getHashes :: Show a => BloomFilter -> a -> [Int]
 getHashes bloomFilter elem =
   let str = show elem
       seed = hashSeed bloomFilter
-  in map ((`hashWithSalt` str) . (seed +)) [1..(k bloomFilter)]
+  in ((`hashWithSalt` str) . (seed +)) <$> [1..(k bloomFilter)]
 
 insert :: Show a => a -> BloomFilter -> BloomFilter
 insert elem bloomFilter =
