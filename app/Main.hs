@@ -27,3 +27,5 @@ main = do
   putStrLn $ show $ Bitset.member bitset2 5
   putStrLn $ show $ Bitset.member bitset2 50
   putStrLn $ show $ Bitset.member bitset2 32
+  let bitset3 = Bitset.delete bitset2 50
+  putStrLn $ show $ Bitset.member bitset3 50
