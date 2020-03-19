@@ -32,3 +32,8 @@ main = do
   assert (Bitset.toList bitset2 == [5, 50]) writeOk "Bitset toList"
   let bitset3 = Bitset.delete bitset2 50
   assert (not $ Bitset.member bitset3 50) writeOk "Bitset delete"
+  let bs1 = Bitset.insert Bitset.empty 8
+  let bs2 = Bitset.insert Bitset.empty 16
+  let bs3 = Bitset.empty
+  let bs4 = bs1 <> bs2 <> bs3
+  assert (Bitset.toList bs4 == [8, 16]) writeOk "Bitset monoid"

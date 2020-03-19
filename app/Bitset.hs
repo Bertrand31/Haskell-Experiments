@@ -4,9 +4,20 @@ import Data.Bits ((.&.), (.|.), complement, popCount, shiftL, shiftR, testBit)
 import qualified Data.Foldable as Foldable (toList)
 import Data.Maybe (fromMaybe)
 import Data.Sequence (Seq, (|>), adjust', takeWhileL)
-import qualified Data.Sequence as Sequence (empty, lookup)
+import qualified Data.Sequence as Sequence (empty, lookup, zipWith)
 
 newtype Bitset = Bitset { bitWords :: Seq Int } deriving (Eq, Show)
+
+instance Semigroup (Bitset) where
+  a <> b =
+    let aWords = bitWords a
+        bWords = bitWords b
+        paddedAWords = expandSeqWith (length bWords) 0 aWords
+        paddedBWords = expandSeqWith (length aWords) 0 bWords
+    in  Bitset { bitWords = Sequence.zipWith (.|.) paddedAWords paddedBWords }
+
+instance Monoid (Bitset) where
+  mempty = empty
 
 empty :: Bitset
 empty = Bitset Sequence.empty
@@ -61,13 +72,12 @@ wordToSequence word wordIndex =
       setBits = filter (testBit word) [0..31]
   in  fmap (+ wordBase) setBits
 
-toIntList :: [Int] -> Int -> [Int]
-toIntList (x:xs) currentIndex =
-  wordToSequence x currentIndex ++ toIntList xs (currentIndex + 1)
-toListInternal [] _ = []
+toIntList :: Int -> [Int] -> [Int]
+toIntList index (x:xs) = wordToSequence x index ++ toIntList (index + 1) xs
+toIntList _ []         = []
 
 toList :: Bitset -> [Int]
-toList bs = toIntList (Foldable.toList $ bitWords bs) 0
+toList = (toIntList 0) . Foldable.toList . bitWords
 
 null :: Bitset -> Bool
 null = all (== 0) . bitWords
