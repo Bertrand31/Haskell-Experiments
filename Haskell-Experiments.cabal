@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 359412a2f1ae3bd6c26077b6c69e7722cf4d2a7d83c2628b4385d67e589b2c09
+-- hash: ba95a3cbf15fe38f8af8639e5f0d7214d8d77a7c5aca27f557e4a175408af28b
 
 name:           Haskell-Experiments
 version:        0.1.0.0
@@ -20,33 +20,42 @@ build-type:     Simple
 extra-source-files:
     README.md
 
-executable Haskell-Experiments-exe
-  hs-source-dirs:   app
-  main-is:          Main.hs
-  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
-  build-depends:    QuickCheck >=2.13.2
-                  , base >=4.7 && <5
-                  , containers >=0.6.0.1
-                  , hashable
-                  , hspec >=2.7.1
-                  , hspec-core >=2.7.1
-                  , random >=1.1
-  default-language: Haskell2010
-
-test-suite Haskell-Experiments-test
-  type:             exitcode-stdio-1.0
-  hs-source-dirs:   test
-  main-is:          Spec.hs
-  build-depends:    QuickCheck >=2.13.2
-                  , base >=4.7 && <5
-                  , containers >=0.6.0.1
-                  , hashable
-                  , hspec >=2.7.1
-                  , hspec-core >=2.7.1
-                  , random >=1.1
-  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
-  default-language: Haskell2010
-
 source-repository head
   type: git
   location: https://github.com/Bertrand31/Haskell-Experiments
+
+executable Haskell-Experiments-exe
+  main-is: Main.hs
+  other-modules:
+      Paths_Haskell_Experiments
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      QuickCheck >=2.13.2
+    , base >=4.7 && <5
+    , containers >=0.6.0.1
+    , hashable
+    , hspec >=2.7.1
+    , hspec-core >=2.7.1
+    , random >=1.1
+  default-language: Haskell2010
+
+test-suite Haskell-Experiments-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      BitsetSpec
+      Paths_Haskell_Experiments
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      QuickCheck >=2.13.2
+    , base >=4.7 && <5
+    , containers >=0.6.0.1
+    , hashable
+    , hspec >=2.7.1
+    , hspec-core >=2.7.1
+    , random >=1.1
+  default-language: Haskell2010
