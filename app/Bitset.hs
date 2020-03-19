@@ -1,4 +1,4 @@
-module Bitset (empty, delete, insert, member) where
+module Bitset (cardinality, empty, delete, insert, member) where
 
 import Data.Bits
 import Data.Maybe
@@ -47,3 +47,6 @@ member bs number =
       localWord   = Sequence.lookup wordIndex $ bitWords bs
       hasBit      = fmap (`testBit` localNumber) localWord
    in fromMaybe False hasBit
+
+cardinality :: Bitset -> Int
+cardinality bs = sum $ fmap popCount $ bitWords bs
