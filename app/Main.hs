@@ -24,14 +24,14 @@ main = do
   let bitset = Bitset.empty
   assert (Bitset.null bitset) writeOk "Bitset null"
   assert (not $ Bitset.null bitset) writeOk "Bitset null"
-  let bitset2 = Bitset.insertMany bitset [5, 50]
+  let bitset2 = Bitset.insertMany bitset [5, 31, 32, 62, 63, 64, 1030193]
   assert (Bitset.member bitset2 5) writeOk "Bitset member"
-  assert (Bitset.member bitset2 50) writeOk "Bitset member"
-  assert (not $ Bitset.member bitset2 32) writeOk "Bitset member"
-  assert (Bitset.size bitset2 == 2) writeOk "Bitset size"
-  assert (Bitset.toList bitset2 == [5, 50]) writeOk "Bitset toList"
-  let bitset3 = Bitset.delete bitset2 50
-  assert (not $ Bitset.member bitset3 50) writeOk "Bitset delete"
+  assert (Bitset.member bitset2 31) writeOk "Bitset member"
+  assert (not $ Bitset.member bitset2 33) writeOk "Bitset member"
+  assert (Bitset.size bitset2 == 7) writeOk "Bitset size"
+  assert (Bitset.toList bitset2 == [5, 31, 32, 62, 63, 64, 1030193]) writeOk "Bitset toList"
+  let bitset3 = Bitset.delete bitset2 5
+  assert (not $ Bitset.member bitset3 5) writeOk "Bitset delete"
   let bs1 = Bitset.insert Bitset.empty 8
   let bs2 = Bitset.insert Bitset.empty 16
   let bs3 = Bitset.empty
