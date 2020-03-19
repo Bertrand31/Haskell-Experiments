@@ -16,18 +16,20 @@ main = do
   assert (mergeSort (<) [7,1,6,4,2,9] == [1,2,4,6,7,9]) writeOk "MergeSort"
   gen <- getStdGen
   let bloomFilter = BloomFilter.empty 100000 0.0001 gen
-  assert (BloomFilter.null bloomFilter == True) writeOk "BloomFilter null"
+  assert (BloomFilter.null bloomFilter) writeOk "BloomFilter null"
   let bloomFilterWithFoo = BloomFilter.insert "foo" bloomFilter
-  assert (BloomFilter.null bloomFilterWithFoo == False) writeOk "BloomFilter null"
-  assert (BloomFilter.member "foo" bloomFilterWithFoo == True) writeOk "BloomFilter member"
-  assert (BloomFilter.member "bar" bloomFilterWithFoo == False) writeOk "BloomFilter member"
+  assert (not $ BloomFilter.null bloomFilterWithFoo) writeOk "BloomFilter null"
+  assert (BloomFilter.member "foo" bloomFilterWithFoo) writeOk "BloomFilter member"
+  assert (not $ BloomFilter.member "bar" bloomFilterWithFoo) writeOk "BloomFilter member"
   let bitset = Bitset.empty
+  assert (Bitset.isEmpty bitset) writeOk "Bitset isEmpty"
   let bitset1 = Bitset.insert bitset 5
+  assert (Bitset.isEmpty bitset == False) writeOk "Bitset isEmpty"
   let bitset2 = Bitset.insert bitset1 50
-  putStrLn $ show $ Bitset.member bitset2 5
-  putStrLn $ show $ Bitset.member bitset2 50
-  putStrLn $ show $ Bitset.member bitset2 32
-  putStrLn $ show $ Bitset.cardinality bitset2
-  putStrLn $ show $ Bitset.toList bitset2
+  assert (Bitset.member bitset2 5) writeOk "Bitset member"
+  assert (Bitset.member bitset2 50) writeOk "Bitset member"
+  assert (not $ Bitset.member bitset2 32) writeOk "Bitset member"
+  assert (Bitset.cardinality bitset2 == 2) writeOk "Bitset cardinality"
+  assert (Bitset.toList bitset2 == [5, 50]) writeOk "Bitset toList"
   let bitset3 = Bitset.delete bitset2 50
-  putStrLn $ show $ Bitset.member bitset3 50
+  assert (not $ Bitset.member bitset3 50) writeOk "Bitset delete"

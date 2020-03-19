@@ -1,4 +1,4 @@
-module Bitset (cardinality, empty, delete, insert, member, toList) where
+module Bitset (cardinality, empty, delete, insert, isEmpty, member, toList) where
 
 import Data.Bits
 import qualified Data.Foldable as Foldable
@@ -66,3 +66,6 @@ toListInternal words currentIndex =
 
 toList :: Bitset -> [Int]
 toList bs = toListInternal (Foldable.toList $ bitWords bs) 0
+
+isEmpty :: Bitset -> Bool
+isEmpty bs = all (== 0) $ bitWords bs
