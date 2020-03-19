@@ -3,8 +3,9 @@ module Bitset (Bitset, cardinality, empty, delete, insert, insertMany, member, B
 import Data.Bits ((.&.), (.|.), complement, popCount, shiftL, shiftR, testBit)
 import qualified Data.Foldable as Foldable (toList)
 import Data.Maybe (fromMaybe)
-import Data.Sequence (Seq, (|>), (<|), ViewL((:<)), adjust', takeWhileL, viewl, viewr)
-import qualified Data.Sequence as S (Seq(Empty), drop, empty, index, lookup, zipWith)
+import Data.Sequence (Seq, (|>), adjust', takeWhileL)
+import qualified Data.Sequence as S (empty, lookup)
+import Utils (zipWith')
 
 newtype Bitset = Bitset { bitWords :: Seq Int } deriving (Eq, Show)
 
@@ -13,14 +14,6 @@ instance Semigroup (Bitset) where
 
 instance Monoid (Bitset) where
   mempty = empty
-
-zipWith' :: (a -> a -> a) -> Seq a -> Seq a -> Seq a
-zipWith' fn S.Empty xb = xb
-zipWith' fn xa S.Empty = xa
-zipWith' fn xa xb =
-  let headA :< tailA = viewl xa
-      headB :< tailB = viewl xb
-  in  fn headA headB <| zipWith' fn tailA tailB
 
 empty :: Bitset
 empty = Bitset S.empty
