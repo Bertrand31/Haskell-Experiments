@@ -1,15 +1,15 @@
 module Bitset (Bitset, cardinality, empty, delete, insert, insertMany, member, Bitset.null, toList) where
 
-import Data.Bits
+import Data.Bits ((.&.), (.|.), complement, popCount, shiftL, shiftR, testBit)
 import qualified Data.Foldable as Foldable (toList)
-import Data.Maybe
-import Data.Sequence (Seq, Seq(Empty), adjust', ViewL((:<)), (|>), (><), singleton, takeWhileL)
-import qualified Data.Sequence as Sequence (lookup)
+import Data.Maybe (fromMaybe)
+import Data.Sequence (Seq, (|>), adjust', takeWhileL)
+import qualified Data.Sequence as Sequence (empty, lookup)
 
 newtype Bitset = Bitset { bitWords :: Seq Int } deriving (Eq, Show)
 
 empty :: Bitset
-empty = Bitset $ singleton 0
+empty = Bitset Sequence.empty
 
 getWordIndex :: Int -> Int
 getWordIndex number = shiftR number 5
