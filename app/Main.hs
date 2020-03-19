@@ -23,9 +23,8 @@ main = do
   assert (not $ BloomFilter.member "bar" bloomFilterWithFoo) writeOk "BloomFilter member"
   let bitset = Bitset.empty
   assert (Bitset.isEmpty bitset) writeOk "Bitset isEmpty"
-  let bitset1 = Bitset.insert bitset 5
   assert (Bitset.isEmpty bitset == False) writeOk "Bitset isEmpty"
-  let bitset2 = Bitset.insert bitset1 50
+  let bitset2 = Bitset.insertMany bitset [5, 50]
   assert (Bitset.member bitset2 5) writeOk "Bitset member"
   assert (Bitset.member bitset2 50) writeOk "Bitset member"
   assert (not $ Bitset.member bitset2 32) writeOk "Bitset member"

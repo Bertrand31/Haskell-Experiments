@@ -1,4 +1,4 @@
-module Bitset (cardinality, empty, delete, insert, isEmpty, member, toList) where
+module Bitset (cardinality, empty, delete, insert, insertMany, isEmpty, member, toList) where
 
 import Data.Bits
 import qualified Data.Foldable as Foldable
@@ -32,6 +32,9 @@ insert bs number =
       expandedWords = expandSeqWith (wordIndex + 1) 0 $ bitWords bs
       newWords      = adjust' (addToWord localNumber) wordIndex expandedWords
   in bs { bitWords = newWords }
+
+insertMany :: Bitset -> [Int] -> Bitset
+insertMany bs numbers = foldl insert bs numbers
 
 delete :: Bitset -> Int -> Bitset
 delete bs number =
