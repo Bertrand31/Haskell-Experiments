@@ -12,26 +12,12 @@ packages:
   original:
     hackage: random-1.1
 - completed:
-    hackage: bitset-1.1@sha256:7d340f9462dd192055feb761f7d5bf0c5b192a06bef7b6104d4a4a6134b68508,957
-    pantry-tree:
-      size: 310
-      sha256: bd196507944b5eafa2d6343a4f8fa7a0ea065a98c9bb5c95df61d224f971be03
-  original:
-    hackage: bitset-1.1
-- completed:
     hackage: hashable-1.2.7.0@sha256:03b6836ca9cd3ad0e5a2f3cce989b001dd0e05f306a873db3196037adb30e0a4,5215
     pantry-tree:
       size: 1514
       sha256: 901c4f10bcf6bda842b849950a2767c918f4ed59fa8885f7c945dd6c7e763332
   original:
     hackage: hashable-1.2.7.0
-- completed:
-    hackage: ghc-prim-0.5.3@sha256:2284e90b0d56dfd389588b5c927e7f22c17f1d6c2291464cb0cc3f9651b0ba23,2319
-    pantry-tree:
-      size: 1243
-      sha256: 0cfcb729cad4238cabfa57c5b68ae66475415237cd08c25b9fc804dd10bb8bc0
-  original:
-    hackage: ghc-prim-0.5.3
 snapshots:
 - completed:
     size: 524786

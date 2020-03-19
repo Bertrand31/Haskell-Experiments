@@ -1,7 +1,7 @@
 module BloomFilter (empty, insert, member, BloomFilter.null) where
 
 import System.Random (random, StdGen)
-import qualified Data.BitSet as BitSet (BitSet, empty, insert, member, null, size)
+import qualified Bitset as Bitset (Bitset, empty, insert, member, null)
 import Data.Hashable (hashWithSalt)
 
 -- n: expected number of items in the Bloom Filter
@@ -10,7 +10,7 @@ import Data.Hashable (hashWithSalt)
 -- k: number of hashing functions
 
 data BloomFilter = BloomFilter {
-  n :: Int, p :: Float, bitset :: BitSet.BitSet Int, m :: Int, k :: Int, hashSeed :: Int
+  n :: Int, p :: Float, bitset :: Bitset.Bitset, m :: Int, k :: Int, hashSeed :: Int
 } deriving (Eq, Show)
 
 getMaxSize :: Int -> Float -> Int
@@ -24,10 +24,10 @@ empty n p randGen =
   let m = getMaxSize n p
       k = getNumberOfHashFunctions n m
       hashSeed = fst $ random randGen
-  in BloomFilter n p BitSet.empty m k hashSeed
+  in BloomFilter n p Bitset.empty m k hashSeed
 
 null :: BloomFilter -> Bool
-null = BitSet.null . bitset
+null = Bitset.null . bitset
 
 getHashes :: Show a => BloomFilter -> a -> [Int]
 getHashes bloomFilter elem =
@@ -38,8 +38,8 @@ getHashes bloomFilter elem =
 insert :: Show a => a -> BloomFilter -> BloomFilter
 insert elem bloomFilter =
   let hashes = getHashes bloomFilter elem
-      newBitSet = foldl (flip BitSet.insert) (bitset bloomFilter) hashes
-  in bloomFilter { bitset = newBitSet }
+      newBitset = foldl Bitset.insert (bitset bloomFilter) hashes
+  in bloomFilter { bitset = newBitset }
 
 -- Returns whether an element *may be* present in the bloom filter.
 -- This function can yield false positives, but not false negatives.
@@ -47,4 +47,4 @@ member :: Show a => a -> BloomFilter -> Bool
 member elem bloomFilter =
   let hashes = getHashes bloomFilter elem
       bs = bitset bloomFilter
-  in all (`BitSet.member` bs) hashes
+  in all (Bitset.member bs) hashes

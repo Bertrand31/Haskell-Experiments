@@ -1,12 +1,12 @@
-module Bitset (cardinality, empty, delete, insert, insertMany, isEmpty, member, toList) where
+module Bitset (Bitset, cardinality, empty, delete, insert, insertMany, member, Bitset.null, toList) where
 
 import Data.Bits
-import qualified Data.Foldable as Foldable
+import qualified Data.Foldable as Foldable (toList)
 import Data.Maybe
 import Data.Sequence (Seq, Seq(Empty), adjust', ViewL((:<)), (|>), (><), singleton, takeWhileL)
 import qualified Data.Sequence as Sequence (lookup)
 
-data Bitset = Bitset { bitWords :: Seq Int } deriving (Eq, Show)
+newtype Bitset = Bitset { bitWords :: Seq Int } deriving (Eq, Show)
 
 empty :: Bitset
 empty = Bitset $ singleton 0
@@ -18,7 +18,7 @@ addToWord :: Int -> Int -> Int
 addToWord number word = word .|. shiftL 1 number
 
 removeFromWord :: Int -> Int -> Int
-removeFromWord number word = word .&. (complement $ shiftL 1 number)
+removeFromWord number word = word .&. complement (shiftL 1 number)
 
 expandSeqWith :: Int -> a -> Seq a -> Seq a
 expandSeqWith targetLength fillWith seq
@@ -34,7 +34,7 @@ insert bs number =
   in bs { bitWords = newWords }
 
 insertMany :: Bitset -> [Int] -> Bitset
-insertMany bs numbers = foldl insert bs numbers
+insertMany = foldl insert
 
 delete :: Bitset -> Int -> Bitset
 delete bs number =
@@ -50,25 +50,24 @@ member bs number =
       localNumber = number - shiftL wordIndex 5
       localWord   = Sequence.lookup wordIndex $ bitWords bs
       hasBit      = fmap (`testBit` localNumber) localWord
-   in fromMaybe False hasBit
+  in  fromMaybe False hasBit
 
 cardinality :: Bitset -> Int
-cardinality bs = sum $ fmap popCount $ bitWords bs
+cardinality = sum . (popCount <$>) . bitWords
 
 wordToSequence :: Int -> Int -> [Int]
 wordToSequence word wordIndex =
-  let base = shiftL wordIndex 5
-      setBits = filter (\x -> (word .&. (complement $ shiftL 1 x)) /= word) [0..31]
-  in fmap (+ base) setBits
+  let wordBase = shiftL wordIndex 5
+      setBits = filter (testBit word) [0..31]
+  in  fmap (+ wordBase) setBits
 
-toListInternal :: [Int] -> Int -> [Int]
-toListInternal words currentIndex =
-  case words of
-    (x : xs) -> wordToSequence x currentIndex ++ toListInternal xs (currentIndex + 1)
-    [] -> []
+toIntList :: [Int] -> Int -> [Int]
+toIntList (x:xs) currentIndex =
+  wordToSequence x currentIndex ++ toIntList xs (currentIndex + 1)
+toListInternal [] _ = []
 
 toList :: Bitset -> [Int]
-toList bs = toListInternal (Foldable.toList $ bitWords bs) 0
+toList bs = toIntList (Foldable.toList $ bitWords bs) 0
 
-isEmpty :: Bitset -> Bool
-isEmpty bs = all (== 0) $ bitWords bs
+null :: Bitset -> Bool
+null = all (== 0) . bitWords

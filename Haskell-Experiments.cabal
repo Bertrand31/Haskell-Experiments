@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 652379ccc553010343fd863981d559f662ca4a2b3c8ebe92f0dffa5837933856
+-- hash: 728331265ec4ac7e7fb8426089095f3a7be5c405deb4b12133068575ecb4939e
 
 name:           Haskell-Experiments
 version:        0.1.0.0
@@ -38,7 +38,6 @@ executable Haskell-Experiments-exe
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
-    , bitset >=1.1
     , containers >=0.6.0.1
     , hashable
     , random >=1.1
@@ -54,7 +53,6 @@ test-suite Haskell-Experiments-test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base >=4.7 && <5
-    , bitset >=1.1
     , containers >=0.6.0.1
     , hashable
     , random >=1.1
