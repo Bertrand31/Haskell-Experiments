@@ -1,4 +1,6 @@
-module Bitset (Bitset, size, empty, delete, insert, insertMany, member, Bitset.null, toList) where
+module Bitset (
+  Bitset, size, empty, delete, insert, insertMany, member, Bitset.null, toList
+) where
 
 import Data.Bits ((.&.), (.|.), complement, popCount, shiftL, shiftR, testBit)
 import qualified Data.Foldable as Foldable (toList)

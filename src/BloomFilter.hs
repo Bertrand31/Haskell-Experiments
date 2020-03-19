@@ -39,7 +39,7 @@ insert :: Show a => a -> BloomFilter -> BloomFilter
 insert elem bloomFilter =
   let hashes = getHashes bloomFilter elem
       newBitset = foldl Bitset.insert (bitset bloomFilter) hashes
-  in bloomFilter { bitset = newBitset }
+  in  bloomFilter { bitset = newBitset }
 
 -- Returns whether an element *may be* present in the bloom filter.
 -- This function can yield false positives, but not false negatives.

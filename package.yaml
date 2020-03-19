@@ -25,11 +25,12 @@ dependencies:
 - hashable
 - hspec >= 2.7.1
 - hspec-core >= 2.7.1
+- QuickCheck >= 2.13.2
 
 executables:
   Haskell-Experiments-exe:
-    main:                Main.hs
-    source-dirs:         app
+    main:        Main.hs
+    source-dirs: app
     ghc-options:
     - -threaded
     - -rtsopts
@@ -37,8 +38,8 @@ executables:
 
 tests:
   Haskell-Experiments-test:
-    main:                Spec.hs
-    source-dirs:         test
+    main:        Spec.hs
+    source-dirs: test
     ghc-options:
     - -threaded
     - -rtsopts
