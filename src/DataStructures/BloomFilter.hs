@@ -1,7 +1,7 @@
-module BloomFilter (empty, insert, member, BloomFilter.null) where
+module DataStructures.BloomFilter (empty, insert, member, DataStructures.BloomFilter.null) where
 
 import System.Random (random, StdGen)
-import qualified Bitset (Bitset, empty, insert, member, null)
+import qualified DataStructures.Bitset as Bitset (Bitset, empty, insert, member, null)
 import Data.Hashable (hashWithSalt)
 
 -- n: expected number of items in the Bloom Filter

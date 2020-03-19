@@ -1,10 +1,10 @@
-cabal-version: 1.12
+cabal-version: 2.0
 
 -- This file has been generated from package.yaml by hpack version 0.31.2.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: ba95a3cbf15fe38f8af8639e5f0d7214d8d77a7c5aca27f557e4a175408af28b
+-- hash: 0b97cb318ad9b586cc71592abd918995abd73d29bc2e3a29143b5787b13d3d2e
 
 name:           Haskell-Experiments
 version:        0.1.0.0
@@ -24,12 +24,18 @@ source-repository head
   type: git
   location: https://github.com/Bertrand31/Haskell-Experiments
 
-executable Haskell-Experiments-exe
-  main-is: Main.hs
+library
+  exposed-modules:
+      Algorithms.MergeSort
+      DataStructures.BloomFilter
+      DataStructures.Bitset
+      Paths_Haskell_Experiments
   other-modules:
+      Utils
+  autogen-modules:
       Paths_Haskell_Experiments
   hs-source-dirs:
-      app
+      src/
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       QuickCheck >=2.13.2
@@ -45,10 +51,9 @@ test-suite Haskell-Experiments-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      BitsetSpec
       Paths_Haskell_Experiments
   hs-source-dirs:
-      test
+      test/ src/
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       QuickCheck >=2.13.2

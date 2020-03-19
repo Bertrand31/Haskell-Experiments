@@ -27,19 +27,23 @@ dependencies:
 - hspec-core >= 2.7.1
 - QuickCheck >= 2.13.2
 
-executables:
-  Haskell-Experiments-exe:
-    main:        Main.hs
-    source-dirs: app
-    ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
+library:
+  source-dirs: src/
+  exposed-modules:
+  - Algorithms.MergeSort
+  - DataStructures.BloomFilter
+  - DataStructures.Bitset
+  generated-exposed-modules:
+  - Paths_Haskell_Experiments
+  ghc-options:
+  - -threaded
+  - -rtsopts
+  - -with-rtsopts=-N
 
 tests:
   Haskell-Experiments-test:
     main:        Spec.hs
-    source-dirs: test
+    source-dirs: test/ src/
     ghc-options:
     - -threaded
     - -rtsopts
