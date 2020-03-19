@@ -15,11 +15,17 @@ getWordIndex number = shiftR number 5
 updateWord :: Int -> Int -> Int
 updateWord number word = word .|. shiftL 1 number
 
+expandSeqWith :: Int -> a -> Sequence.Seq a -> Sequence.Seq a
+expandSeqWith targetLength fillWith seq
+  | targetLength - length seq <= 0 = seq
+  | otherwise = expandSeqWith targetLength fillWith $ seq Sequence.|> fillWith
+
 insert :: Bitset -> Int -> Bitset
 insert bs number =
   let wordIndex   = getWordIndex number
       localNumber = number - shiftL wordIndex 5
-      newWords    = Sequence.adjust (updateWord localNumber) wordIndex $ bitWords bs
+      expandedWords = expandSeqWith (wordIndex + 1) 0 $ bitWords bs
+      newWords    = Sequence.adjust' (updateWord localNumber) wordIndex expandedWords
   in bs { bitWords = newWords }
 
 member :: Bitset -> Int -> Bool

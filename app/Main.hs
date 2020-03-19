@@ -26,3 +26,4 @@ main = do
   let bitset2 = Bitset.insert bitset1 50
   putStrLn $ show $ Bitset.member bitset2 5
   putStrLn $ show $ Bitset.member bitset2 50
+  putStrLn $ show $ Bitset.member bitset2 32
