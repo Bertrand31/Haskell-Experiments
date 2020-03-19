@@ -3,24 +3,27 @@ module Bitset (Bitset, cardinality, empty, delete, insert, insertMany, member, B
 import Data.Bits ((.&.), (.|.), complement, popCount, shiftL, shiftR, testBit)
 import qualified Data.Foldable as Foldable (toList)
 import Data.Maybe (fromMaybe)
-import Data.Sequence (Seq, (|>), adjust', takeWhileL)
-import qualified Data.Sequence as Sequence (empty, lookup, zipWith)
+import Data.Sequence (Seq, (|>), (<|), ViewL((:<)), adjust', takeWhileL, viewl, viewr)
+import qualified Data.Sequence as S (Seq(Empty), drop, empty, index, lookup, zipWith)
 
 newtype Bitset = Bitset { bitWords :: Seq Int } deriving (Eq, Show)
 
 instance Semigroup (Bitset) where
-  a <> b =
-    let aWords = bitWords a
-        bWords = bitWords b
-        paddedAWords = expandSeqWith (length bWords) 0 aWords
-        paddedBWords = expandSeqWith (length aWords) 0 bWords
-    in  Bitset { bitWords = Sequence.zipWith (.|.) paddedAWords paddedBWords }
+  a <> b = Bitset { bitWords = zipWith' (.|.) (bitWords a) (bitWords b) }
 
 instance Monoid (Bitset) where
   mempty = empty
 
+zipWith' :: (a -> a -> a) -> Seq a -> Seq a -> Seq a
+zipWith' fn S.Empty xb = xb
+zipWith' fn xa S.Empty = xa
+zipWith' fn xa xb =
+  let headA :< tailA = viewl xa
+      headB :< tailB = viewl xb
+  in  fn headA headB <| zipWith' fn tailA tailB
+
 empty :: Bitset
-empty = Bitset Sequence.empty
+empty = Bitset S.empty
 
 getWordIndex :: Int -> Int
 getWordIndex number = shiftR number 5
@@ -59,7 +62,7 @@ member :: Bitset -> Int -> Bool
 member bs number =
   let wordIndex   = getWordIndex number
       localNumber = number - shiftL wordIndex 5
-      localWord   = Sequence.lookup wordIndex $ bitWords bs
+      localWord   = S.lookup wordIndex $ bitWords bs
       hasBit      = fmap (`testBit` localNumber) localWord
   in  fromMaybe False hasBit
 
