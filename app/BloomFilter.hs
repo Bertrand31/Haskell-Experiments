@@ -1,7 +1,7 @@
 module BloomFilter (empty, insert, member, BloomFilter.null) where
 
 import System.Random (random, StdGen)
-import qualified Bitset as Bitset (Bitset, empty, insert, member, null)
+import qualified Bitset (Bitset, empty, insert, member, null)
 import Data.Hashable (hashWithSalt)
 
 -- n: expected number of items in the Bloom Filter
@@ -14,7 +14,7 @@ data BloomFilter = BloomFilter {
 } deriving (Eq, Show)
 
 getMaxSize :: Int -> Float -> Int
-getMaxSize n p = abs $ ceiling $ fromIntegral n * (log p) / (log (1 / (log 2 ^ 2)))
+getMaxSize n p = abs $ ceiling $ fromIntegral n * log p / (log 1 / (log 2 ^ 2))
 
 getNumberOfHashFunctions :: Int -> Int -> Int
 getNumberOfHashFunctions n m = round $ fromIntegral (m `div` n) * log 2
@@ -33,7 +33,7 @@ getHashes :: Show a => BloomFilter -> a -> [Int]
 getHashes bloomFilter elem =
   let str = show elem
       seed = hashSeed bloomFilter
-  in ((`hashWithSalt` str) . (seed +)) <$> [1..(k bloomFilter)]
+  in (`hashWithSalt` str) . (seed +) <$> [1..(k bloomFilter)]
 
 insert :: Show a => a -> BloomFilter -> BloomFilter
 insert elem bloomFilter =

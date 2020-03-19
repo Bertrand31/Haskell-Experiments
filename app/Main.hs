@@ -23,12 +23,12 @@ main = do
   assert (not $ BloomFilter.member "bar" bloomFilterWithFoo) writeOk "BloomFilter member"
   let bitset = Bitset.empty
   assert (Bitset.null bitset) writeOk "Bitset null"
-  assert (Bitset.null bitset == False) writeOk "Bitset null"
+  assert (not $ Bitset.null bitset) writeOk "Bitset null"
   let bitset2 = Bitset.insertMany bitset [5, 50]
   assert (Bitset.member bitset2 5) writeOk "Bitset member"
   assert (Bitset.member bitset2 50) writeOk "Bitset member"
   assert (not $ Bitset.member bitset2 32) writeOk "Bitset member"
-  assert (Bitset.cardinality bitset2 == 2) writeOk "Bitset cardinality"
+  assert (Bitset.size bitset2 == 2) writeOk "Bitset size"
   assert (Bitset.toList bitset2 == [5, 50]) writeOk "Bitset toList"
   let bitset3 = Bitset.delete bitset2 50
   assert (not $ Bitset.member bitset3 50) writeOk "Bitset delete"

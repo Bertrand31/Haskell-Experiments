@@ -1,4 +1,4 @@
-module Bitset (Bitset, cardinality, empty, delete, insert, insertMany, member, Bitset.null, toList) where
+module Bitset (Bitset, size, empty, delete, insert, insertMany, member, Bitset.null, toList) where
 
 import Data.Bits ((.&.), (.|.), complement, popCount, shiftL, shiftR, testBit)
 import qualified Data.Foldable as Foldable (toList)
@@ -9,10 +9,10 @@ import Utils (expandSeqWith, zipWith')
 
 newtype Bitset = Bitset { bitWords :: Seq Int } deriving (Eq, Show)
 
-instance Semigroup (Bitset) where
+instance Semigroup Bitset where
   a <> b = Bitset { bitWords = zipWith' (.|.) (bitWords a) (bitWords b) }
 
-instance Monoid (Bitset) where
+instance Monoid Bitset where
   mempty = empty
 
 empty :: Bitset
@@ -53,8 +53,8 @@ member bs number =
       hasBit      = (`testBit` localNumber) <$> localWord
   in  fromMaybe False hasBit
 
-cardinality :: Bitset -> Int
-cardinality = sum . (popCount <$>) . bitWords
+size :: Bitset -> Int
+size = sum . (popCount <$>) . bitWords
 
 wordToSequence :: Int -> Int -> [Int]
 wordToSequence word wordIndex =
@@ -67,7 +67,7 @@ toIntList index (x:xs) = wordToSequence x index ++ toIntList (index + 1) xs
 toIntList _     []     = []
 
 toList :: Bitset -> [Int]
-toList = (toIntList 0) . Foldable.toList . bitWords
+toList = toIntList 0 . Foldable.toList . bitWords
 
 null :: Bitset -> Bool
 null = all (== 0) . bitWords

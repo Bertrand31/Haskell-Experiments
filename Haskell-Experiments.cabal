@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c1a7a09849ce34532d950a64513731bb0e09513aed75c0444339eea96433938d
+-- hash: 5c7a2ff10fcfd461967b3b44f24bf0e6dcd9f093d0512a09cb38eb50d777ac1e
 
 name:           Haskell-Experiments
 version:        0.1.0.0
@@ -19,7 +19,6 @@ license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
     README.md
-    ChangeLog.md
 
 source-repository head
   type: git
