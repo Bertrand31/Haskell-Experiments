@@ -28,5 +28,6 @@ main = do
   putStrLn $ show $ Bitset.member bitset2 50
   putStrLn $ show $ Bitset.member bitset2 32
   putStrLn $ show $ Bitset.cardinality bitset2
+  putStrLn $ show $ Bitset.toList bitset2
   let bitset3 = Bitset.delete bitset2 50
   putStrLn $ show $ Bitset.member bitset3 50

@@ -1,8 +1,9 @@
-module Bitset (cardinality, empty, delete, insert, member) where
+module Bitset (cardinality, empty, delete, insert, member, toList) where
 
 import Data.Bits
+import qualified Data.Foldable as Foldable
 import Data.Maybe
-import Data.Sequence (Seq, adjust', (|>), singleton, takeWhileL)
+import Data.Sequence (Seq, Seq(Empty), adjust', ViewL((:<)), (|>), (><), singleton, takeWhileL)
 import qualified Data.Sequence as Sequence (lookup)
 
 data Bitset = Bitset { bitWords :: Seq Int } deriving (Eq, Show)
@@ -50,3 +51,18 @@ member bs number =
 
 cardinality :: Bitset -> Int
 cardinality bs = sum $ fmap popCount $ bitWords bs
+
+wordToSequence :: Int -> Int -> [Int]
+wordToSequence word wordIndex =
+  let base = shiftL wordIndex 5
+      setBits = filter (\x -> (word .&. (complement $ shiftL 1 x)) /= word) [0..31]
+  in fmap (+ base) setBits
+
+toListInternal :: [Int] -> Int -> [Int]
+toListInternal words currentIndex =
+  case words of
+    (x : xs) -> wordToSequence x currentIndex ++ toListInternal xs (currentIndex + 1)
+    [] -> []
+
+toList :: Bitset -> [Int]
+toList bs = toListInternal (Foldable.toList $ bitWords bs) 0
