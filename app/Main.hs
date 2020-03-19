@@ -28,7 +28,7 @@ main = do
   assert (Bitset.member bitset2 5) writeOk "Bitset member"
   assert (Bitset.member bitset2 31) writeOk "Bitset member"
   assert (not $ Bitset.member bitset2 33) writeOk "Bitset member"
-  assert (Bitset.size bitset2 == 7) writeOk "Bitset size"
+  assert (Bitset.size bitset2 == 6) writeOk "Bitset size"
   assert (Bitset.toList bitset2 == [5, 31, 32, 62, 63, 64, 1030193]) writeOk "Bitset toList"
   let bitset3 = Bitset.delete bitset2 5
   assert (not $ Bitset.member bitset3 5) writeOk "Bitset delete"
