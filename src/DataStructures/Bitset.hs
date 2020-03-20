@@ -5,7 +5,7 @@ module DataStructures.Bitset (
 import Data.Bits ((.&.), (.|.), complement, popCount, shiftL, shiftR, testBit)
 import qualified Data.Foldable as Foldable (toList)
 import Data.Maybe (fromMaybe)
-import Data.Sequence (Seq, adjust', takeWhileL)
+import Data.Sequence (Seq, adjust', dropWhileR)
 import qualified Data.Sequence as S (empty, lookup)
 import Utils (expandSeqWith, zipWith')
 
@@ -45,7 +45,7 @@ delete bs number =
   let wordIndex   = getWordIndex number
       localNumber = number - shiftL wordIndex 5
       newWords    = adjust' (removeFromWord localNumber) wordIndex $ bitWords bs
-  in bs { bitWords = takeWhileL (> 0) newWords }
+  in bs { bitWords = dropWhileR (== 0) newWords }
 
 member :: Bitset -> Int -> Bool
 member bs number =
