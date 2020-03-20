@@ -1,7 +1,7 @@
 module Utils (expandSeqWith, zipWith') where
 
 import Data.Sequence (Seq, (<|), (|>), ViewL((:<)), viewl, viewr)
-import qualified Data.Sequence as S (Seq(Empty))
+import qualified Data.Sequence as S
 
 zipWith' :: (a -> a -> a) -> Seq a -> Seq a -> Seq a
 zipWith' fn S.Empty xb = xb

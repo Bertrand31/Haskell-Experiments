@@ -1,7 +1,7 @@
 module DataStructures.BloomFilter (empty, insert, member, DataStructures.BloomFilter.null) where
 
 import System.Random (random, StdGen)
-import qualified DataStructures.Bitset as Bitset (Bitset, empty, insert, member, null)
+import qualified DataStructures.Bitset as Bitset
 import Data.Hashable (hashWithSalt)
 
 -- n: expected number of items in the Bloom Filter
@@ -14,7 +14,7 @@ data BloomFilter = BloomFilter {
 } deriving (Eq, Show)
 
 getMaxSize :: Int -> Float -> Int
-getMaxSize n p = abs $ ceiling $ fromIntegral n * log p / (log 1 / (log 2 ^ 2))
+getMaxSize n p = abs $ ceiling $ fromIntegral n * (log p) / (log (1 / (log 2 ^ 2)))
 
 getNumberOfHashFunctions :: Int -> Int -> Int
 getNumberOfHashFunctions n m = round $ fromIntegral (m `div` n) * log 2
@@ -33,18 +33,18 @@ getHashes :: Show a => BloomFilter -> a -> [Int]
 getHashes bloomFilter elem =
   let str = show elem
       seed = hashSeed bloomFilter
-  in (`hashWithSalt` str) . (seed +) <$> [1..(k bloomFilter)]
+  in abs . (`hashWithSalt` str) . (seed +) <$> [1..(k bloomFilter)]
 
-insert :: Show a => a -> BloomFilter -> BloomFilter
-insert elem bloomFilter =
+insert :: Show a => BloomFilter -> a -> BloomFilter
+insert bloomFilter elem =
   let hashes = getHashes bloomFilter elem
-      newBitset = foldl Bitset.insert (bitset bloomFilter) hashes
+      newBitset = Bitset.insertMany (bitset bloomFilter) hashes
   in  bloomFilter { bitset = newBitset }
 
 -- Returns whether an element *may be* present in the bloom filter.
 -- This function can yield false positives, but not false negatives.
-member :: Show a => a -> BloomFilter -> Bool
-member elem bloomFilter =
+member :: Show a => BloomFilter -> a -> Bool
+member bloomFilter elem =
   let hashes = getHashes bloomFilter elem
       bs = bitset bloomFilter
-  in all (Bitset.member bs) hashes
+  in  all (Bitset.member bs) hashes

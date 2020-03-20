@@ -1,4 +1,4 @@
-module MergeSortSpec (main, spec) where
+module Algorithms.MergeSortSpec (main, spec) where
 
 import Test.Hspec
 import Algorithms.MergeSort (mergeSort)
