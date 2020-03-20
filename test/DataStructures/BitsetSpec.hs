@@ -18,9 +18,6 @@ spec = do
     it "should insert an integer into a bitset" $ do
       let bs = Bitset.insert emptyBs 5
       Bitset.size bs `shouldBe` (1 :: Int)
-    it "should be able to hold a very large value" $ do
-      let bs = Bitset.insert Bitset.empty 8777947948003747146
-      Bitset.member bs 8777947948003747146 `shouldBe` True
 
   describe "Bitset.insertMany" $ do
     it "should insert multiple integers into a bitset" $ do

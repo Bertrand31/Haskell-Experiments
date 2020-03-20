@@ -31,13 +31,14 @@ null = Bitset.null . bitset
 
 getHashes :: Show a => BloomFilter -> a -> [Int]
 getHashes bloomFilter elem =
-  let str = show elem
-      seed = hashSeed bloomFilter
-  in abs . (`hashWithSalt` str) . (seed +) <$> [1..(k bloomFilter)]
+  let str     = show elem
+      seed    = hashSeed bloomFilter
+      maxSize = m bloomFilter
+  in (`mod` maxSize) . abs . (`hashWithSalt` str) . (seed +) <$> [1..(k bloomFilter)]
 
 insert :: Show a => BloomFilter -> a -> BloomFilter
 insert bloomFilter elem =
-  let hashes = getHashes bloomFilter elem
+  let hashes    = getHashes bloomFilter elem
       newBitset = Bitset.insertMany (bitset bloomFilter) hashes
   in  bloomFilter { bitset = newBitset }
 
@@ -46,5 +47,5 @@ insert bloomFilter elem =
 member :: Show a => BloomFilter -> a -> Bool
 member bloomFilter elem =
   let hashes = getHashes bloomFilter elem
-      bs = bitset bloomFilter
+      bs     = bitset bloomFilter
   in  all (Bitset.member bs) hashes
