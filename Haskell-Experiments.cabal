@@ -4,7 +4,7 @@ cabal-version: 2.0
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 0b97cb318ad9b586cc71592abd918995abd73d29bc2e3a29143b5787b13d3d2e
+-- hash: 2271de45de88bc6dc6d74c912f4c57d6c4523daed82ff3461ed0f2bdc566cc82
 
 name:           Haskell-Experiments
 version:        0.1.0.0
@@ -53,7 +53,7 @@ test-suite Haskell-Experiments-test
   other-modules:
       Paths_Haskell_Experiments
   hs-source-dirs:
-      test/ src/
+      test/, src/
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       QuickCheck >=2.13.2

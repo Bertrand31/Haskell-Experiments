@@ -43,7 +43,7 @@ library:
 tests:
   Haskell-Experiments-test:
     main:        Spec.hs
-    source-dirs: test/ src/
+    source-dirs: test/, src/
     ghc-options:
     - -threaded
     - -rtsopts
