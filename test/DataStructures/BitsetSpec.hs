@@ -1,8 +1,6 @@
 module BitsetSpec (main, spec) where
 
 import Test.Hspec
-import Test.QuickCheck
-import Control.Exception (evaluate)
 import DataStructures.Bitset as Bitset
 
 main :: IO ()
@@ -50,17 +48,11 @@ spec = do
       Bitset.size bitsetMinus5 `shouldBe` (6 :: Int)
       Bitset.member bitsetMinus5 5 `shouldBe` False
 
+  let bs1 = Bitset.insert Bitset.empty 8
+  let bs2 = Bitset.insert Bitset.empty 16
+  let bs3 = Bitset.empty
 
-  -- assert (mergeSort (<) [7,1,6,4,2,9] == [1,2,4,6,7,9]) writeOk "MergeSort"
-  -- gen <- getStdGen
-  -- let bloomFilter = BloomFilter.empty 100000 0.0001 gen
-  -- assert (BloomFilter.null bloomFilter) writeOk "BloomFilter null"
-  -- let bloomFilterWithFoo = BloomFilter.insert "foo" bloomFilter
-  -- assert (not $ BloomFilter.null bloomFilterWithFoo) writeOk "BloomFilter null"
-  -- assert (BloomFilter.member "foo" bloomFilterWithFoo) writeOk "BloomFilter member"
-  -- assert (not $ BloomFilter.member "bar" bloomFilterWithFoo) writeOk "BloomFilter member"
-  -- let bs1 = Bitset.insert Bitset.empty 8
-  -- let bs2 = Bitset.insert Bitset.empty 16
-  -- let bs3 = Bitset.empty
-  -- let bs4 = bs1 <> bs2 <> bs3
-  -- assert (Bitset.toList bs4 == [8, 16]) writeOk "Bitset monoid"
+  describe "Bitset Monoid instance" $ do
+    it "should merge bitsets, empty or not" $ do
+      let bs4 = bs1 <> bs2 <> bs3
+      Bitset.toList bs4 `shouldBe` [8, 16]
