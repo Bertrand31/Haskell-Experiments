@@ -24,7 +24,7 @@ empty n p randGen =
   let m = getMaxSize n p
       k = getNumberOfHashFunctions n m
       hashSeed = fst $ random randGen
-  in BloomFilter n p Bitset.empty m k hashSeed
+  in  BloomFilter n p Bitset.empty m k hashSeed
 
 null :: BloomFilter -> Bool
 null = Bitset.null . bitset
@@ -34,7 +34,7 @@ getHashes bloomFilter elem =
   let str     = show elem
       seed    = hashSeed bloomFilter
       maxSize = m bloomFilter
-  in (`mod` maxSize) . abs . (`hashWithSalt` str) . (seed +) <$> [1..(k bloomFilter)]
+  in  (`mod` maxSize) . abs . (`hashWithSalt` str) . (seed +) <$> [1..(k bloomFilter)]
 
 insert :: Show a => BloomFilter -> a -> BloomFilter
 insert bloomFilter elem =

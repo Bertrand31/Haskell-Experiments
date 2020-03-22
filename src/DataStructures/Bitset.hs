@@ -23,6 +23,9 @@ empty = Bitset S.empty
 getWordIndex :: Int -> Int
 getWordIndex number = shiftR number 6
 
+getLocalNumber :: Int -> Int -> Int
+getLocalNumber wordIndex number = number - shiftL wordIndex 6
+
 addToWord :: Int -> Int -> Int
 addToWord number word = word .|. shiftL 1 number
 
@@ -32,7 +35,7 @@ removeFromWord number word = word .&. complement (shiftL 1 number)
 insert :: Bitset -> Int -> Bitset
 insert bs number =
   let wordIndex     = getWordIndex number
-      localNumber   = number - shiftL wordIndex 6
+      localNumber   = getLocalNumber wordIndex number
       expandedWords = expandSeqWith (wordIndex + 1) 0 $ bitWords bs
       newWords      = adjust' (addToWord localNumber) wordIndex expandedWords
   in  bs { bitWords = newWords }
@@ -43,14 +46,14 @@ insertMany = foldl insert
 delete :: Bitset -> Int -> Bitset
 delete bs number =
   let wordIndex   = getWordIndex number
-      localNumber = number - shiftL wordIndex 6
+      localNumber = getLocalNumber wordIndex number
       newWords    = adjust' (removeFromWord localNumber) wordIndex $ bitWords bs
   in  bs { bitWords = dropWhileR (== 0) newWords }
 
 member :: Bitset -> Int -> Bool
 member bs number =
   let wordIndex   = getWordIndex number
-      localNumber = number - shiftL wordIndex 6
+      localNumber = getLocalNumber wordIndex number
       localWord   = S.lookup wordIndex $ bitWords bs
       hasBit      = (`testBit` localNumber) <$> localWord
   in  fromMaybe False hasBit
