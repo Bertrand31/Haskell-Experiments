@@ -2,7 +2,7 @@ module DataStructures.BloomFilter (empty, insert, member, DataStructures.BloomFi
 
 import System.Random (random, StdGen)
 import qualified DataStructures.Bitset as Bitset
-import Data.Hashable (hashWithSalt)
+import Data.Hashable (Hashable, hashWithSalt)
 
 -- n: expected number of items in the Bloom Filter
 -- p: acceptable probability of a false positive
@@ -29,14 +29,13 @@ empty n p randGen =
 null :: BloomFilter -> Bool
 null = Bitset.null . bitset
 
-getHashes :: Show a => BloomFilter -> a -> [Int]
+getHashes :: Hashable a => BloomFilter -> a -> [Int]
 getHashes bloomFilter elem =
-  let str     = show elem
-      seed    = hashSeed bloomFilter
+  let seed    = hashSeed bloomFilter
       maxSize = m bloomFilter
-  in  (`mod` maxSize) . abs . (`hashWithSalt` str) . (seed +) <$> [1..(k bloomFilter)]
+  in  (`mod` maxSize) . abs . (`hashWithSalt` elem) . (seed +) <$> [1..(k bloomFilter)]
 
-insert :: Show a => BloomFilter -> a -> BloomFilter
+insert :: Hashable a => BloomFilter -> a -> BloomFilter
 insert bloomFilter elem =
   let hashes    = getHashes bloomFilter elem
       newBitset = Bitset.insertMany (bitset bloomFilter) hashes
@@ -44,7 +43,7 @@ insert bloomFilter elem =
 
 -- Returns whether an element *may be* present in the bloom filter.
 -- This function can yield false positives, but not false negatives.
-member :: Show a => BloomFilter -> a -> Bool
+member :: Hashable a => BloomFilter -> a -> Bool
 member bloomFilter elem =
   let hashes = getHashes bloomFilter elem
       bs     = bitset bloomFilter
