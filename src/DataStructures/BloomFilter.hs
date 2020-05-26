@@ -1,3 +1,5 @@
+{-# LANGUAGE RecordWildCards #-}
+
 module DataStructures.BloomFilter (empty, insert, member, DataStructures.BloomFilter.null) where
 
 import System.Random (random, StdGen)
@@ -30,10 +32,8 @@ null :: BloomFilter -> Bool
 null = Bitset.null . bitset
 
 getHashes :: Hashable a => BloomFilter -> a -> [Int]
-getHashes bloomFilter elem =
-  let seed    = hashSeed bloomFilter
-      maxSize = m bloomFilter
-  in  (`mod` maxSize) . abs . (`hashWithSalt` elem) . (seed +) <$> [1..(k bloomFilter)]
+getHashes BloomFilter{..} elem =
+  (`mod` m) . abs . (`hashWithSalt` elem) . (hashSeed +) <$> [1..k]
 
 insert :: Hashable a => BloomFilter -> a -> BloomFilter
 insert bloomFilter elem =
