@@ -23,17 +23,18 @@ getNumberOfHashFunctions n m = round $ fromIntegral (m `div` n) * log 2
 
 empty :: Int -> Float -> StdGen -> BloomFilter
 empty n p randGen =
-  let m = getMaxSize n p
-      k = getNumberOfHashFunctions n m
-      hashSeed = fst $ random randGen
-  in  BloomFilter n p Bitset.empty m k hashSeed
+  BloomFilter n p Bitset.empty m k seed
+  where m    = getMaxSize n p
+        k    = getNumberOfHashFunctions n m
+        seed = fst $ random randGen
 
 null :: BloomFilter -> Bool
 null = Bitset.null . bitset
 
 getHashes :: Hashable a => BloomFilter -> a -> [Int]
 getHashes BloomFilter{..} elem =
-  (`mod` m) . abs . (`hashWithSalt` elem) . (hashSeed +) <$> [1..k]
+  fmap nthHash [1..k]
+  where nthHash = (`mod` m) . abs . (`hashWithSalt` elem) . (hashSeed +)
 
 insert :: Hashable a => BloomFilter -> a -> BloomFilter
 insert bloomFilter elem =
