@@ -1,10 +1,10 @@
 cabal-version: 2.0
 
--- This file has been generated from package.yaml by hpack version 0.31.2.
+-- This file has been generated from package.yaml by hpack version 0.36.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 2271de45de88bc6dc6d74c912f4c57d6c4523daed82ff3461ed0f2bdc566cc82
+-- hash: acb05d6a964eff026bcba9d167576319eed143c20f01709a2d1a530d0e97c8f1
 
 name:           Haskell-Experiments
 version:        0.1.0.0
@@ -51,6 +51,8 @@ test-suite Haskell-Experiments-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      Paths_Haskell_Experiments
+  autogen-modules:
       Paths_Haskell_Experiments
   hs-source-dirs:
       test/, src/
